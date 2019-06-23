@@ -6,6 +6,7 @@
 #define KNOWLEDGE_SORT_H
 #include<ctime>
 #include<algorithm>
+const int BUCKET_SIZE = 5;
 namespace algorithm
 {
     namespace sort
@@ -70,6 +71,54 @@ namespace algorithm
                srand((unsigned int)time(0));
                std::random_shuffle(wait_sort.begin(),wait_sort.end());
            }
+       }
+
+       template<typename T>
+       void bucket_sort(T & wait_sort)
+       {
+           if(wait_sort.size() <= 0)
+           {
+               return;
+           }
+           auto pmax_num = std::max_element(wait_sort.begin(), wait_sort.end());
+           auto pmin_num = std::min_element(wait_sort.begin(),wait_sort.end());
+           int bucket_num = (*pmax_num-*pmin_num) / BUCKET_SIZE + 1;
+           // to be continue...      
+       }
+
+       template<typename T>
+       void cocktail_shaker_sort(T & wait_sort)
+       {
+           auto length = wait_sort.size();
+           if (length <= 0)
+           {
+               return;
+           }
+           for (auto i = length -1; i > length /2 -1; i--)
+           {
+               bool swapped = false;
+               for (int j = i; j > 0; j--)
+               {
+                    if (wait_sort[j] < wait_sort[j-1])
+                    {
+                        swap(wait_sort[j], wait_sort[j-1]);
+                        swapped = true;
+                    }
+               }
+               for (int j = 0; j < i; j++)
+               {
+                   if (wait_sort[j] > wait_sort[j+1])
+                   {
+                       swap(wait_sort[j], wait_sort[j+1]);
+                       swapped = true;
+                   }
+               }
+               if (!swapped)
+               {
+                   return;
+               }
+           }
+           return;
        }
 
     } // namespace sort
